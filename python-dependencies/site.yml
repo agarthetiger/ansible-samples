@@ -1,0 +1,31 @@
+---
+- hosts: all
+  gather_facts: False
+  vars:
+    sample_data:
+      cities:
+        - farnborough
+        - letchworth
+        - southampton
+        - winchester
+  tasks:
+    - name: >
+        Print the path to the python executable currently running Ansible on the control node.
+        Note that lookups always run on the control node by the python interpreter running ansible-playbook
+      debug:
+        var: lookup('python_path')
+      run_once: True
+
+    - name: run query over sample_json, requires python jmespath package to be found on the control node
+      debug:
+        msg: 'Executed json_query OK. Got value of "{{ sample_data | json_query("cities[0]") }}"'
+
+    - name: Get the path to the python executable currently running Ansible on localhost
+      python_path:
+      register: python_info
+      # delegate_to: localhost
+      run_once: True
+
+    - name: Print the python executable executing on localhost
+      debug:
+        var: python_info
