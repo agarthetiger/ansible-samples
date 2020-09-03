@@ -23,7 +23,7 @@
     - name: Get the path to the python executable currently running Ansible on localhost
       python_path:
       register: python_info
-      # delegate_to: localhost
+      delegate_to: localhost
       run_once: True
 
     - name: Print the python executable executing on localhost
